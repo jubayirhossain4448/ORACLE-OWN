@@ -1,0 +1,11 @@
+SQL> connect
+Enter user-name: system
+Connected.
+SQL> show user
+USER is "SYSTEM"
+SQL> show autocommit
+autocommit OFF
+SQL> set autocommit on
+SQL> show autocommit
+autocommit IMMEDIATE
+SQL> exit

@@ -1,0 +1,99 @@
+SQL> show user
+USER is "SYSTEM"
+SQL> show autocommit
+autocommit OFF
+SQL> set autocommit on
+SQL> show autocommit
+autocommit IMMEDIATE
+SQL> create user eid identified by eid;
+
+User created.
+
+SQL> grant dba to eid;
+
+Grant succeeded.
+
+SQL> show user
+USER is "SYSTEM"
+SQL> connect
+Enter user-name: eid
+Connected.
+SQL> show user
+USER is "EID"
+SQL> create table department(dep_id number (3) primary key, department_name varchar2(25));
+
+Table created.
+
+SQL> create table employee (emp_id number(3)primary key,emp_name varchar2(25), mobile number(11)unique,salary number(salary>10000),joining_date Date default sysdate,country default 'BD',department_id(3),constraint department_id_fk foreign key(department_id) references department(dep_id));
+create table employee (emp_id number(3)primary key,emp_name varchar2(25), mobile number(11)unique,salary number(salary>10000),joining_date Date default sysdate,country default 'BD',department_id(3),constraint department_id_fk foreign key(department_id) references department(dep_id))
+                                                                                                                *
+ERROR at line 1:
+ORA-01727: numeric precision specifier is out of range (1 to 38) 
+
+
+SQL> create table employee (emp_id number(3)primary key,emp_name varchar2(25), mobile number(11)unique,salary number(7,2) salary>10000,joining_date Date default sysdate,country default 'BD',department_id(3),constraint department_id_fk foreign key(department_id) references department(dep_id));
+create table employee (emp_id number(3)primary key,emp_name varchar2(25), mobile number(11)unique,salary number(7,2) salary>10000,joining_date Date default sysdate,country default 'BD',department_id(3),constraint department_id_fk foreign key(department_id) references department(dep_id))
+                                                                                                                     *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> create table employee (emp_id number(3)primary key,emp_name varchar2(25), mobile number(11)unique,salary number(7,2) (salary>10000),joining_date Date default sysdate,country default 'BD',department_id(3),constraint department_id_fk foreign key(department_id) references department(dep_id));
+create table employee (emp_id number(3)primary key,emp_name varchar2(25), mobile number(11)unique,salary number(7,2) (salary>10000),joining_date Date default sysdate,country default 'BD',department_id(3),constraint department_id_fk foreign key(department_id) references department(dep_id))
+                                                                                                                     *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> create table employee (emp_id number(3)primary key,emp_name varchar2(25), mobile number(11)unique,salary number check (salary>10000),joining_date Date default sysdate,country default 'BD',department_id(3),constraint department_id_fk foreign key(department_id) references department(dep_id));
+create table employee (emp_id number(3)primary key,emp_name varchar2(25), mobile number(11)unique,salary number check (salary>10000),joining_date Date default sysdate,country default 'BD',department_id(3),constraint department_id_fk foreign key(department_id) references department(dep_id))
+                                                                                                                                                                                                         *
+ERROR at line 1:
+ORA-00902: invalid datatype 
+
+
+SQL> create table employee (emp_id number(3)primary key,emp_name varchar2(25), mobile number(11)unique,salary number check (salary>10000),joining_date Date default sysdate,country varchar2 default 'BD',department_id(3),constraint department_id_fk foreign key(department_id) references department(dep_id));
+create table employee (emp_id number(3)primary key,emp_name varchar2(25), mobile number(11)unique,salary number check (salary>10000),joining_date Date default sysdate,country varchar2 default 'BD',department_id(3),constraint department_id_fk foreign key(department_id) references department(dep_id))
+                                                                                                                                                                                        *
+ERROR at line 1:
+ORA-00906: missing left parenthesis 
+
+
+SQL> create table employee (emp_id number(3)primary key,emp_name varchar2(25), mobile number(11)unique,salary number check (salary>10000),joining_date Date default sysdate,country varchar2 (10) default 'BD',department_id(3),constraint department_id_fk foreign key(department_id) references department(dep_id));
+create table employee (emp_id number(3)primary key,emp_name varchar2(25), mobile number(11)unique,salary number check (salary>10000),joining_date Date default sysdate,country varchar2 (10) default 'BD',department_id(3),constraint department_id_fk foreign key(department_id) references department(dep_id))
+                                                                                                                                                                                                                       *
+ERROR at line 1:
+ORA-00902: invalid datatype 
+
+
+SQL> create table employee (
+  2  emp_id number (3) primary key,
+  3  emp_name varchar2 (25),
+  4  mobile number (11) unique,
+  5  salary number check(salary>1000),
+  6  joining_date Date default sysdate,
+  7  country varchar2 (10) default 'BD',
+  8  dep_id number(3),
+  9  constraint dept_id_emp_fk foreign key (dep_id) references department (dep_id)
+ 10  );
+
+Table created.
+
+SQL> describe department;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEP_ID                                    NOT NULL NUMBER(3)
+ DEPARTMENT_NAME                                    VARCHAR2(25)
+
+SQL> describe employee;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_ID                                    NOT NULL NUMBER(3)
+ EMP_NAME                                           VARCHAR2(25)
+ MOBILE                                             NUMBER(11)
+ SALARY                                             NUMBER
+ JOINING_DATE                                       DATE
+ COUNTRY                                            VARCHAR2(10)
+ DEP_ID                                             NUMBER(3)
+
+SQL> spool off;
