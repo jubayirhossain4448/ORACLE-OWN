@@ -1,0 +1,69 @@
+create user bangla identified by bangla;
+ grant dba to bangla;
+============================
+create table department(
+dep_id number (3) primary key,
+department_name varchar2 (25));
+.............................
+create table employee (
+emp_id number (3) primary key,
+emp_name varchar2(25),
+mobile number(11) unique,
+salary number check (salary >10000),
+joining_date Date default sysdate,
+country varchar2(7) default 'BD',
+dep_id number(3),
+constraint relation_dep_id_fk foreign key (dep_id) 
+references department (dep_id));
+.......................
+describe department;
+describe employee;
+................
+create sequence dep_seq
+increment by 10
+start with 1
+maxvalue 100
+nocache
+nocycle;
+.............
+create sequence emp_seq
+increment by 5
+start with 1
+maxvalue 100
+nocache
+nocycle;
+..........
+select index_name from user_indexes;
+create index department_name on department(department_name);
+................
+insert into department (dep_id,department_name) values (1,'ADMIN');
+insert into department (dep_id,department_name) values (2,'SOFTWARE');
+insert into department (dep_id,department_name) values (3,'MARKETING');
+................
+create view depView as select dep_id,department_name from department where dep_id =3;
+
+select * from depView;
+create synonym dep_syn for department;
+ create synonym depView_syn for department;
+...............
+select * from depView;
+select * from dep_syn;
+select * from depView_syn;
+.................
+select index_name from user_indexes;
+create index emp_name on employee(emp_name);
+select sequence emp_seq;
+insert into employee (emp_id,emp_name,mobile,salary,dep_id) values (11,'Jubayir',01918718282,110000,2);
+................
+create view empView as select emp_id, emp_name,salary,mobile from employee where emp_id = 14;
+select * from empView;
+create synonym emp_syn for employee;
+create synonym empView_syn for employee;
+.............
+select * from empView;
+select * from emp_syn;
+select * from empView_syn;
+............
+update department set department_name='SALES' where dep_id=3;
+
+update employee set dep_id = 3 where emp_id =1;

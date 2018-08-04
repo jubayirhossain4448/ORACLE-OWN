@@ -1,0 +1,367 @@
+SQL> connect
+Enter user-name: system
+Connected.
+SQL> create user bangla identified by bangla;
+
+User created.
+
+SQL> grant dba to bangla
+  2  grant dba to bangla;
+grant dba to bangla
+*
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> grant dba to bangla;
+
+Grant succeeded.
+
+SQL> connect
+Enter user-name: bangla
+Connected.
+SQL> show user
+USER is "BANGLA"
+SQL> create table department(
+  2  dep_id number (3) primary key,
+  3  department_name varchar2 (25));
+
+Table created.
+
+SQL> create table employee (
+  2  emp_id number (3) primary key,
+  3  emp_name varchar2(25),
+  4  mobile number(11) unique,
+  5  salary number(7,2) check salary >10000,
+  6  joining_date Date default sysdate,
+  7  country varchar2(7) default 'BD',
+  8  dep_id number(3),
+  9  constraint relation_dep_id_fk foreign key (dep_id)
+ 10  references department (dep_id));
+salary number(7,2) check salary >10000,
+                         *
+ERROR at line 5:
+ORA-00906: missing left parenthesis 
+
+
+SQL> create table employee (
+  2  emp_id number (3) primary key,
+  3  emp_name varchar2(25),
+  4  mobile number(11) unique,
+  5  salary number check (salary >10000),
+  6  joining_date Date default sysdate,
+  7  country varchar2(7) default 'BD',
+  8  dep_id number(3),
+  9  constraint relation_dep_id_fk foreign key (dep_id)
+ 10  references department (dep_id));
+
+Table created.
+
+SQL> describe department;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEP_ID                                    NOT NULL NUMBER(3)
+ DEPARTMENT_NAME                                    VARCHAR2(25)
+
+SQL> describe employee;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_ID                                    NOT NULL NUMBER(3)
+ EMP_NAME                                           VARCHAR2(25)
+ MOBILE                                             NUMBER(11)
+ SALARY                                             NUMBER
+ JOINING_DATE                                       DATE
+ COUNTRY                                            VARCHAR2(7)
+ DEP_ID                                             NUMBER(3)
+
+SQL> create sequence dep_seq
+  2  increment by 10
+  3  start with 1
+  4  maxvalue 100
+  5  nocache
+  6  nocycle;
+
+Sequence created.
+
+SQL> create sequence emp_seq
+  2  increment by 5
+  3  start with 1
+  4  maxvalue 100
+  5  nocache
+  6  nocycle;
+
+Sequence created.
+
+SQL> select index_name from user_indexes;
+
+INDEX_NAME                                                                      
+------------------------------                                                  
+SYS_C007072                                                                     
+SYS_C007074                                                                     
+SYS_C007075                                                                     
+
+SQL> create index department_name from department(department_name);
+create index department_name from department(department_name)
+                             *
+ERROR at line 1:
+ORA-00969: missing ON keyword 
+
+
+SQL> create index department_name on department(department_name);
+
+Index created.
+
+SQL> insert into department (dep_id,department_name) values (1,'ADMIN');
+
+1 row created.
+
+SQL> insert into department (dep_id,department_name) values (2,'SOFTWARE');
+
+1 row created.
+
+SQL> insert into department (dep_id,department_name) values (3,'MARKETING');
+
+1 row created.
+
+SQL> create view depView as select dep_id,department_name from department where dep_id =3;
+
+View created.
+
+SQL> select * from depView;
+
+    DEP_ID DEPARTMENT_NAME                                                      
+---------- -------------------------                                            
+         3 MARKETING                                                            
+
+SQL> create synonym_dep for department;
+create synonym_dep for department
+       *
+ERROR at line 1:
+ORA-00901: invalid CREATE command 
+
+
+SQL> create synonym dep_syn for department;
+
+Synonym created.
+
+SQL> create synonym depView_syn for department;
+
+Synonym created.
+
+SQL> select * from depView;
+
+    DEP_ID DEPARTMENT_NAME                                                      
+---------- -------------------------                                            
+         3 MARKETING                                                            
+
+SQL> select * from dep_syn;
+
+    DEP_ID DEPARTMENT_NAME                                                      
+---------- -------------------------                                            
+         1 ADMIN                                                                
+         2 SOFTWARE                                                             
+         3 MARKETING                                                            
+
+SQL> select * from depView_syn;
+
+    DEP_ID DEPARTMENT_NAME                                                      
+---------- -------------------------                                            
+         1 ADMIN                                                                
+         2 SOFTWARE                                                             
+         3 MARKETING                                                            
+
+SQL> select index_name from user_indexes;
+
+INDEX_NAME                                                                      
+------------------------------                                                  
+SYS_C007072                                                                     
+SYS_C007074                                                                     
+SYS_C007075                                                                     
+DEPARTMENT_NAME                                                                 
+
+SQL> create index emp_name on employee(emp_name);
+
+Index created.
+
+SQL> select sequence emp_seq;
+select sequence emp_seq
+                      *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> insert into employee (emp_id,emp_name,mobile,salary,dep_id) values (11,'Jubayir',01918718282,200,2);
+insert into employee (emp_id,emp_name,mobile,salary,dep_id) values (11,'Jubayir',01918718282,200,2)
+*
+ERROR at line 1:
+ORA-02290: check constraint (BANGLA.SYS_C007073) violated 
+
+
+SQL> insert into employee (emp_id,emp_name,mobile,salary,dep_id) values (11,'Jubayir',01918718282,110000,2);
+
+1 row created.
+
+SQL> insert into employee (emp_id,emp_name,mobile,salary,dep_id) values (12,'Arefin',01918818282,110500,3);
+
+1 row created.
+
+SQL> insert into employee (emp_id,emp_name,mobile,salary,dep_id) values (13,'Moly',01918813282,150500,1);
+
+1 row created.
+
+SQL> insert into employee (emp_id,emp_name,mobile,salary,dep_id) values (14,'Israt',01918813292,150500,1);
+
+1 row created.
+
+SQL> insert into employee (emp_id,emp_name,mobile,salary,dep_id) values (15,'Reka',01918813291,150590,2);
+
+1 row created.
+
+SQL> insert into employee (emp_id,emp_name,mobile,salary,dep_id) values (11,'Jubayir',01918718282,110000,2);
+insert into employee (emp_id,emp_name,mobile,salary,dep_id) values (11,'Jubayir',01918718282,110000,2)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (BANGLA.SYS_C007074) violated 
+
+
+SQL> create view empView as select emp_id, emp_name,salary,mobile from employee where emp_id = 14;
+
+View created.
+
+SQL> select * from empView;
+
+    EMP_ID EMP_NAME                      SALARY     MOBILE                      
+---------- ------------------------- ---------- ----------                      
+        14 Israt                         150500 1918813292                      
+
+SQL> create synonym emp_syn for employee;
+
+Synonym created.
+
+SQL> create synonym empView for employee;
+create synonym empView for employee
+               *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> create synonym empView_syn for employee;
+
+Synonym created.
+
+SQL> select * from empView;
+
+    EMP_ID EMP_NAME                      SALARY     MOBILE                      
+---------- ------------------------- ---------- ----------                      
+        14 Israt                         150500 1918813292                      
+
+SQL> select * from emp_syn;
+
+    EMP_ID EMP_NAME                      MOBILE     SALARY JOINING_D COUNTRY    
+---------- ------------------------- ---------- ---------- --------- -------    
+    DEP_ID                                                                      
+----------                                                                      
+        11 Jubayir                   1918718282     110000 04-AUG-18 BD         
+         2                                                                      
+                                                                                
+        12 Arefin                    1918818282     110500 04-AUG-18 BD         
+         3                                                                      
+                                                                                
+        13 Moly                      1918813282     150500 04-AUG-18 BD         
+         1                                                                      
+                                                                                
+
+    EMP_ID EMP_NAME                      MOBILE     SALARY JOINING_D COUNTRY    
+---------- ------------------------- ---------- ---------- --------- -------    
+    DEP_ID                                                                      
+----------                                                                      
+        14 Israt                     1918813292     150500 04-AUG-18 BD         
+         1                                                                      
+                                                                                
+        15 Reka                      1918813291     150590 04-AUG-18 BD         
+         2                                                                      
+                                                                                
+
+SQL> select * from empView_syn;
+
+    EMP_ID EMP_NAME                      MOBILE     SALARY JOINING_D COUNTRY    
+---------- ------------------------- ---------- ---------- --------- -------    
+    DEP_ID                                                                      
+----------                                                                      
+        11 Jubayir                   1918718282     110000 04-AUG-18 BD         
+         2                                                                      
+                                                                                
+        12 Arefin                    1918818282     110500 04-AUG-18 BD         
+         3                                                                      
+                                                                                
+        13 Moly                      1918813282     150500 04-AUG-18 BD         
+         1                                                                      
+                                                                                
+
+    EMP_ID EMP_NAME                      MOBILE     SALARY JOINING_D COUNTRY    
+---------- ------------------------- ---------- ---------- --------- -------    
+    DEP_ID                                                                      
+----------                                                                      
+        14 Israt                     1918813292     150500 04-AUG-18 BD         
+         1                                                                      
+                                                                                
+        15 Reka                      1918813291     150590 04-AUG-18 BD         
+         2                                                                      
+                                                                                
+
+SQL> update department set department_name='SALES' where id=3;
+update department set department_name='SALES' where id=3
+                                                    *
+ERROR at line 1:
+ORA-00904: "ID": invalid identifier 
+
+
+SQL> update department set department_name='SALES' where dep_id=3;
+
+1 row updated.
+
+SQL> update employee set dep_id = 3 where emp_id =1;
+
+0 rows updated.
+
+SQL> select * from employee;
+
+    EMP_ID EMP_NAME                      MOBILE     SALARY JOINING_D COUNTRY    
+---------- ------------------------- ---------- ---------- --------- -------    
+    DEP_ID                                                                      
+----------                                                                      
+        11 Jubayir                   1918718282     110000 04-AUG-18 BD         
+         2                                                                      
+                                                                                
+        12 Arefin                    1918818282     110500 04-AUG-18 BD         
+         3                                                                      
+                                                                                
+        13 Moly                      1918813282     150500 04-AUG-18 BD         
+         1                                                                      
+                                                                                
+
+    EMP_ID EMP_NAME                      MOBILE     SALARY JOINING_D COUNTRY    
+---------- ------------------------- ---------- ---------- --------- -------    
+    DEP_ID                                                                      
+----------                                                                      
+        14 Israt                     1918813292     150500 04-AUG-18 BD         
+         1                                                                      
+                                                                                
+        15 Reka                      1918813291     150590 04-AUG-18 BD         
+         2                                                                      
+                                                                                
+
+SQL> select * from department;
+
+    DEP_ID DEPARTMENT_NAME                                                      
+---------- -------------------------                                            
+         1 ADMIN                                                                
+         2 SOFTWARE                                                             
+         3 SALES                                                                
+
+SQL> show autocommit
+autocommit OFF
+SQL> set autocommit on
+SQL> show autocommit
+autocommit IMMEDIATE
+SQL> spool off
