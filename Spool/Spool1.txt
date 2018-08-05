@@ -1,0 +1,339 @@
+SQL> show autocommit
+autocommit OFF
+SQL> set autocommit on
+SQL> show autocommit
+autocommit IMMEDIATE
+SQL> connect
+Enter user-name: hr
+Connected.
+SQL> select last_name, hire_date from employees where hire_date like '%94;'
+  2  select last_name, hire_date from employees where hire_date like '%94';
+select last_name, hire_date from employees where hire_date like '%94'
+*
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> select last_name, hire_date from employees where hire_date LIKE '%94';
+
+no rows selected
+
+SQL> select last_name, hire_date from employees where hire_date LIKE "%94";
+select last_name, hire_date from employees where hire_date LIKE "%94"
+                                                                *
+ERROR at line 1:
+ORA-00904: "%94": invalid identifier 
+
+
+SQL> select hire_date from employees;
+
+HIRE_DATE                                                                       
+---------                                                                       
+17-JUN-03                                                                       
+21-SEP-05                                                                       
+13-JAN-01                                                                       
+03-JAN-06                                                                       
+21-MAY-07                                                                       
+25-JUN-05                                                                       
+05-FEB-06                                                                       
+07-FEB-07                                                                       
+17-AUG-02                                                                       
+16-AUG-02                                                                       
+28-SEP-05                                                                       
+
+HIRE_DATE                                                                       
+---------                                                                       
+30-SEP-05                                                                       
+07-MAR-06                                                                       
+07-DEC-07                                                                       
+07-DEC-02                                                                       
+18-MAY-03                                                                       
+24-DEC-05                                                                       
+24-JUL-05                                                                       
+15-NOV-06                                                                       
+10-AUG-07                                                                       
+18-JUL-04                                                                       
+10-APR-05                                                                       
+
+HIRE_DATE                                                                       
+---------                                                                       
+01-MAY-03                                                                       
+10-OCT-05                                                                       
+16-NOV-07                                                                       
+16-JUL-05                                                                       
+28-SEP-06                                                                       
+14-JAN-07                                                                       
+08-MAR-08                                                                       
+20-AUG-05                                                                       
+30-OCT-05                                                                       
+16-FEB-05                                                                       
+10-APR-07                                                                       
+
+HIRE_DATE                                                                       
+---------                                                                       
+14-JUN-04                                                                       
+26-AUG-06                                                                       
+12-DEC-07                                                                       
+06-FEB-08                                                                       
+14-JUL-03                                                                       
+26-OCT-05                                                                       
+12-FEB-06                                                                       
+06-APR-06                                                                       
+17-OCT-03                                                                       
+29-JAN-05                                                                       
+15-MAR-06                                                                       
+
+HIRE_DATE                                                                       
+---------                                                                       
+09-JUL-06                                                                       
+01-OCT-04                                                                       
+05-JAN-05                                                                       
+10-MAR-05                                                                       
+15-OCT-07                                                                       
+29-JAN-08                                                                       
+30-JAN-05                                                                       
+24-MAR-05                                                                       
+20-AUG-05                                                                       
+30-MAR-06                                                                       
+09-DEC-06                                                                       
+
+HIRE_DATE                                                                       
+---------                                                                       
+23-NOV-07                                                                       
+30-JAN-04                                                                       
+04-MAR-04                                                                       
+01-AUG-04                                                                       
+10-MAR-05                                                                       
+15-DEC-05                                                                       
+03-NOV-06                                                                       
+11-NOV-05                                                                       
+19-MAR-07                                                                       
+24-JAN-08                                                                       
+23-FEB-08                                                                       
+
+HIRE_DATE                                                                       
+---------                                                                       
+24-MAR-08                                                                       
+21-APR-08                                                                       
+11-MAR-05                                                                       
+23-MAR-06                                                                       
+24-JAN-06                                                                       
+23-FEB-07                                                                       
+24-MAR-07                                                                       
+21-APR-08                                                                       
+11-MAY-04                                                                       
+19-MAR-05                                                                       
+24-MAR-06                                                                       
+
+HIRE_DATE                                                                       
+---------                                                                       
+23-APR-06                                                                       
+24-MAY-07                                                                       
+04-JAN-08                                                                       
+24-JAN-06                                                                       
+23-FEB-06                                                                       
+21-JUN-07                                                                       
+03-FEB-08                                                                       
+27-JAN-04                                                                       
+20-FEB-05                                                                       
+24-JUN-06                                                                       
+07-FEB-07                                                                       
+
+HIRE_DATE                                                                       
+---------                                                                       
+14-JUN-05                                                                       
+13-AUG-05                                                                       
+11-JUL-06                                                                       
+19-DEC-07                                                                       
+04-FEB-04                                                                       
+03-MAR-05                                                                       
+01-JUL-06                                                                       
+17-MAR-07                                                                       
+24-APR-06                                                                       
+23-MAY-06                                                                       
+21-JUN-07                                                                       
+
+HIRE_DATE                                                                       
+---------                                                                       
+13-JAN-08                                                                       
+17-SEP-03                                                                       
+17-FEB-04                                                                       
+17-AUG-05                                                                       
+07-JUN-02                                                                       
+07-JUN-02                                                                       
+07-JUN-02                                                                       
+07-JUN-02                                                                       
+
+107 rows selected.
+
+SQL> select last_name, hire_date from employees where hire_date LIKE "%02";
+select last_name, hire_date from employees where hire_date LIKE "%02"
+                                                                *
+ERROR at line 1:
+ORA-00904: "%02": invalid identifier 
+
+
+SQL> select last_name, job_id from employees where manager_id is NULL;
+
+LAST_NAME                 JOB_ID                                                
+------------------------- ----------                                            
+King                      AD_PRES                                               
+
+SQL> select last_name, salary, commission_pct from employees where commission_pct is not null order by salary desc, commission_pct desc;
+
+LAST_NAME                     SALARY COMMISSION_PCT                             
+------------------------- ---------- --------------                             
+Russell                        14000             .4                             
+Partners                       13500             .3                             
+Errazuriz                      12000             .3                             
+Ozer                           11500            .25                             
+Cambrault                      11000             .3                             
+Abel                           11000             .3                             
+Vishney                        10500            .25                             
+Zlotkey                        10500             .2                             
+King                           10000            .35                             
+Tucker                         10000             .3                             
+Bloom                          10000             .2                             
+
+LAST_NAME                     SALARY COMMISSION_PCT                             
+------------------------- ---------- --------------                             
+Fox                             9600             .2                             
+Sully                           9500            .35                             
+Bernstein                       9500            .25                             
+Greene                          9500            .15                             
+McEwen                          9000            .35                             
+Hall                            9000            .25                             
+Hutton                          8800            .25                             
+Taylor                          8600             .2                             
+Livingston                      8400             .2                             
+Smith                           8000             .3                             
+Olsen                           8000             .2                             
+
+LAST_NAME                     SALARY COMMISSION_PCT                             
+------------------------- ---------- --------------                             
+Doran                           7500             .3                             
+Cambrault                       7500             .2                             
+Smith                           7400            .15                             
+Bates                           7300            .15                             
+Marvins                         7200             .1                             
+Sewall                          7000            .25                             
+Tuvault                         7000            .15                             
+Grant                           7000            .15                             
+Lee                             6800             .1                             
+Ande                            6400             .1                             
+Banda                           6200             .1                             
+
+LAST_NAME                     SALARY COMMISSION_PCT                             
+------------------------- ---------- --------------                             
+Johnson                         6200             .1                             
+Kumar                           6100             .1                             
+
+35 rows selected.
+
+SQL> select last_name, salary from employees where salary>&sal_amt;
+Enter value for sal_amt: 30000;
+old   1: select last_name, salary from employees where salary>&sal_amt
+new   1: select last_name, salary from employees where salary>30000;
+select last_name, salary from employees where salary>30000;
+                                                          *
+ERROR at line 1:
+ORA-00911: invalid character 
+
+
+SQL> select last_name, salary from employees where salary>&sal_amt;
+Enter value for sal_amt: 5000
+old   1: select last_name, salary from employees where salary>&sal_amt
+new   1: select last_name, salary from employees where salary>5000
+
+LAST_NAME                     SALARY                                            
+------------------------- ----------                                            
+King                           24000                                            
+Kochhar                        17000                                            
+De Haan                        17000                                            
+Hunold                          9000                                            
+Ernst                           6000                                            
+Greenberg                      12008                                            
+Faviet                          9000                                            
+Chen                            8200                                            
+Sciarra                         7700                                            
+Urman                           7800                                            
+Popp                            6900                                            
+
+LAST_NAME                     SALARY                                            
+------------------------- ----------                                            
+Raphaely                       11000                                            
+Weiss                           8000                                            
+Fripp                           8200                                            
+Kaufling                        7900                                            
+Vollman                         6500                                            
+Mourgos                         5800                                            
+Russell                        14000                                            
+Partners                       13500                                            
+Errazuriz                      12000                                            
+Cambrault                      11000                                            
+Zlotkey                        10500                                            
+
+LAST_NAME                     SALARY                                            
+------------------------- ----------                                            
+Tucker                         10000                                            
+Bernstein                       9500                                            
+Hall                            9000                                            
+Olsen                           8000                                            
+Cambrault                       7500                                            
+Tuvault                         7000                                            
+King                           10000                                            
+Sully                           9500                                            
+McEwen                          9000                                            
+Smith                           8000                                            
+Doran                           7500                                            
+
+LAST_NAME                     SALARY                                            
+------------------------- ----------                                            
+Sewall                          7000                                            
+Vishney                        10500                                            
+Greene                          9500                                            
+Marvins                         7200                                            
+Lee                             6800                                            
+Ande                            6400                                            
+Banda                           6200                                            
+Ozer                           11500                                            
+Bloom                          10000                                            
+Fox                             9600                                            
+Smith                           7400                                            
+
+LAST_NAME                     SALARY                                            
+------------------------- ----------                                            
+Bates                           7300                                            
+Kumar                           6100                                            
+Abel                           11000                                            
+Hutton                          8800                                            
+Taylor                          8600                                            
+Livingston                      8400                                            
+Grant                           7000                                            
+Johnson                         6200                                            
+Hartstein                      13000                                            
+Fay                             6000                                            
+Mavris                          6500                                            
+
+LAST_NAME                     SALARY                                            
+------------------------- ----------                                            
+Baer                           10000                                            
+Higgins                        12008                                            
+Gietz                           8300                                            
+
+58 rows selected.
+
+SQL> select employee_id, last_name, salary, department_id from employees where manager_id = &mgr_num order by &order_col;
+Enter value for mgr_num: 103
+Enter value for order_col: manager_id
+old   1: select employee_id, last_name, salary, department_id from employees where manager_id = &mgr_num order by &order_col
+new   1: select employee_id, last_name, salary, department_id from employees where manager_id = 103 order by manager_id
+
+EMPLOYEE_ID LAST_NAME                     SALARY DEPARTMENT_ID                  
+----------- ------------------------- ---------- -------------                  
+        104 Ernst                           6000            60                  
+        105 Austin                          4800            60                  
+        106 Pataballa                       4800            60                  
+        107 Lorentz                         4200            60                  
+
+SQL> spool off

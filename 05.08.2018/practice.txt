@@ -1,0 +1,56 @@
+Practice:2
+8.  select last_name, job_id from employees where manager_id is NULL;
+
+LAST_NAME                 JOB_ID
+------------------------- ----------
+King                      AD_PRES
+
+9. select last_name, salary, commission_pct from employees where commission_pct is not null order by salary desc, commission_pct desc;
+
+LAST_NAME                     SALARY COMMISSION_PCT
+------------------------- ---------- --------------
+Russell                        14000             .4
+Partners                       13500             .3
+Errazuriz                      12000             .3
+Ozer                           11500            .25
+Cambrault                      11000             .3
+Abel                           11000             .3
+Vishney                        10500            .25
+Zlotkey                        10500             .2
+King                           10000            .35
+Tucker                         10000             .3
+Bloom                          10000             .2
+
+10. select last_name, salary from employees where salary>&sal_amt;
+Enter value for sal_amt: 5000
+old   1: select last_name, salary from employees where salary>&sal_amt
+new   1: select last_name, salary from employees where salary>5000
+
+LAST_NAME                     SALARY
+------------------------- ----------
+King                           24000
+Kochhar                        17000
+De Haan                        17000
+Hunold                          9000
+Ernst                           6000
+Greenberg                      12008
+Faviet                          9000
+Chen                            8200
+Sciarra                         7700
+Urman                           7800
+Popp                            6900
+
+11.  select employee_id, last_name, salary, department_id from employees where manager_id = &mgr_num order by &order_col;
+Enter value for mgr_num: 103
+Enter value for order_col: manager_id
+old   1: select employee_id, last_name, salary, department_id from employees where manager_id = &mgr_num order by &order_col
+new   1: select employee_id, last_name, salary, department_id from employees where manager_id = 103 order by manager_id
+
+EMPLOYEE_ID LAST_NAME                     SALARY DEPARTMENT_ID
+----------- ------------------------- ---------- -------------
+        104 Ernst                           6000            60
+        105 Austin                          4800            60
+        106 Pataballa                       4800            60
+        107 Lorentz                         4200            60
+
+12.   
