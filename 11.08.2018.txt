@@ -1,0 +1,39 @@
+SQL> set autocommit on
+SQL> show autocommit
+autocommit IMMEDIATE
+SQL> connect system
+Connected.
+SQL> show user
+USER is "SYSTEM"
+SQL> connect
+Enter user-name: hr
+Connected.
+SQL> show user
+USER is "HR"
+SQL> connect
+Enter user-name: jubayir
+Connected.
+SQL> show user
+USER is "JUBAYIR"
+SQL> select table_name from user_tables;
+
+TABLE_NAME                                                                      
+------------------------------                                                  
+TEST_10                                                                         
+EMPLOYEES                                                                       
+DEPARTMENTS                                                                     
+EMPLOYEES100                                                                    
+TESTY                                                                           
+TESTY2                                                                          
+TESTY3                                                                          
+
+7 rows selected.
+
+SQL> connect
+Enter user-name: system
+Connected.
+SQL> grant dba to sami;
+
+Grant succeeded.
+
+SQL> spool off

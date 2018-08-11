@@ -1,0 +1,24 @@
+create table employees(id number(5), name varchar2(25));
+create table employees_backup as select * from employees;
+create or replace trigger emp_after_insert after insert on employees for each row
+declare
+begin
+insert into employees_backup values(:new.id,:new.name);
+dbms_output.put_line('record successfully inserted into employees_backup table');
+end;
+======================
+select trigger_name from user_triggers;
+drop trigger (trigger_name);
+update employees set last_name= 'Hasina' where employees_id = 120;
+======================
+To update all table
+create or replace trigger emp_after_update after update on employees
+for each row
+begin
+update employees_backup
+set name = :new.name
+where id = :old.id;
+dbms_output.put_line('Record successfully updated into employees_backup table');
+end; 
+update employees set name='jubayir' where id =1;
+ 
