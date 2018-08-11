@@ -1,0 +1,149 @@
+1: What is subquery? Write down the syntax of Subquery.
+Ans: A subquery is a SELECT statement that is embedded in a clause of another SELECT statement. We can build powerful statement out of simple ones by using subquery.
+The subquery (inner query) executes once before the main query(outer query). The result of the subquery is used
+by the main query. Subquery can be placed in (1) Where clause (2) Having clause (3) From clause
+Syntax: SELECT select_list from table where expr operator (select select_list from table); 
+
+2:Types of subqueries?
+There are two types of subquery (1) Single_row subquery: Queries that return only one row from the inner SELECT statement.
+(2) Multiple_row subquery: Queries that return more than one row from the inner SELECT statement.
+3. Define each type and give an example for each.
+(1) Single_row subquery: Queries that return only one row from the inner SELECT statement. 
+Example: select last_name, job_id, salary from employees where job_id = (select job_id from employees where employee_id = 141) and salary > (select salary from employees where employee_id = 143);
+
+(2) Multiple_row subquery: Queries that return more than one row from the inner SELECT statement.
+select last_name, job_id, salary from employees where salary <any (select salary from employees where job_id = 'It_prog') and job_id<> 'It_prog';
+
+4: What are the guidelines of subqueries?
+1. Enclose subqueries in parentheses.
+2. place subqueries on the right side of the comparison condition.
+3. The ORDER BY clause in the subquery is not needed unless performing Top_N analysis.
+4. Use single-row operators with single-row subqueries and multiple-row subqueries.
+
+5: What are the uses of single-row comparison operators?
+1. Single-row comparison operator return only one row.
+2. Use single-row comparison operators.
+
+6:  What are usages of multiple row comparison operators?
+1. Return more than one row.
+2. Use multiple-row comparison operators.
+
+7: Write the examples using in, and & all.
+Example using IN: SELECT last_name, salary, department_id from employees where salary in (SELECT min(salary) from employees group by department_id);
+Example using AND: select last_name, job_id, salary from employees where job_id = (select job_id from employees where employee_id = 141) and salary > (select salary from employees where employee_id = 143);
+Example using ALL: select employee_id, last_name, job_id, salary from employees where salary <all (select salary from employees where job_id = 'It_prog') and job_id <> 'IT_PROG';
+ 
+8: What is set operators? Describe different types of set operators with graph?
+Operators combine the results of two or more component queries into one result is called set operator. Queries containing set operators are called compound queries.
+
+9: Write examples using union, union all, intersect and minus.
+Example using Union: select employee_id, job_id from employees union select employee_id, job_id from job_history;
+Example using Union all: SELECT employee_id, job_id, department_id from employees union all select employee_id, job_id, department_id from job_history order by employee_id;
+Example using intersect: select employee_id, job_id, from employees intersect select employee_id, job_id from job_history;
+Example using Minus: select employee_id from employees minus select employee_id from job_history;
+
+10: What are set operators guidelines?
+1. The expressions in the select lists must match in number and data type.
+2. Parentheses can be used to alter the sequence of execution.
+3. The order by clause: i. can appear only at the very end of the statement
+ii. Will accept the column name, aliases from the first select statement or the positional notation.
+ 
+11: Describe DML.
+Data Manipulation Language (DML) is a core part of SQL. When we want to add, update or delete data in the database, we execute a DML statement. A collection of DML statements that form a logical unit of work is called a transaction.
+
+12: Write down examples of insert, update and delete.
+Example using insert: Insert into departments (id, name, location) values (70, 'Jubayir', 'Dhanmondi');
+Example using Update: update employees set department_id = 70 where employee_id = 113;
+Example using delete: delete from departments where department_name = 'Finance';
+
+13: When you can insert null values? Explain.
+We can insert null values in two ways.
+1. implicit: omit the column from the column list.
+2. explicit;: Specify the null keyword in the values list; specify the empty string ('') in the values list for character strings and dates.
+
+14: Write examples using sysdate.
+Example using sysdate: insert into employees (employee_id, first_name, hire_date) values (111,'Jubayir', sysdate);
+
+15: Write examples using specific date values.
+Example using specific date: insert into employees values (114, 'den', To_date('Feb 3, 1999', 'Mon DD, YYYY');
+
+16: How you can insert data, copy rows using subqueris? Explain.
+
+ 17: What are the advantage of rollback and commit?
+ With COMMIT and ROLLBACK statements, we can:
+• Ensure data consistency
+• Preview data changes before making changes permanent
+• Group logically related operations
+
+ 18: Describe savepoint. 
+19: How can you control login of transaction?
+ We can control the login of transactions by using the COMMIT, SAVEPOINT, and ROLLBACK
+ 
+ 20: What is controlling user access?
+ 
+ 21: Describe privileges.
+ Privileges are the right to execute particular SQL statement. The database administrator (DBA) is a hirg level use with the ability to create users and grant users access to the database and its objects. 
+ 
+ 22: Describe system privileges and typical dba privileges.
+ • More than 100 privileges are available.
+• The database administrator has high-level system
+privileges for tasks such as:
+– Creating new users
+– Removing users
+– Removing tables
+– Backing up tables
+
+ 23: What is schema?
+ A schema is a collection of objects such as tables, views, and sequences. The schema is owned by a database user and has the same name as that user.
+
+ 24: How can you create a user in database? 
+ The DBA creates a user by executing the CREATE USER statement. The user does not have any privileges at this point. The DBA can then grant privileges to that user. These privileges determine what the user can do at the database level.
+ 
+ 25: Describe the relation between system privileges and grant privileges.
+ • After a user is created, the DBA can grant specific system privileges to that user. • An application developer, for example, may have the
+following system privileges:
+– CREATE SESSION
+– CREATE TABLE
+– CREATE SEQUENCE
+– CREATE VIEW
+– CREATE PROCEDURE
+
+The DBA uses the GRANT statement to allocate system privileges to the user. After the user has been
+granted the privileges, the user can immediately use those privileges.
+
+ 26: What is a role? How can you create an assign role? Explain with example. 
+ A role is a named group of related privileges that can be granted to the user. This method makes it
+easier to revoke and maintain privileges. A user can have access to several roles, and several users can be assigned the same role. Roles are
+typically created for a database application.A user can have access to several roles, and several users can be assigned the same role. Roles are
+typically created for a database application.
+
+ 27: Describe alter and give an example.
+ 
+ 28: What is object privileges? Follow the chart of object privileges. 
+ An object privilege is a privilege or right to perform a particular action on a specific table, view,
+sequence, or procedure. Each object has a particular set of grantable privileges.
+• Object privileges vary from object to object.
+• An owner has all the privileges on the object.
+• An owner can give specific privileges on that owner’s
+object.
+
+ 29: Write an example of granting object privileges?
+ • Grant query privileges on the EMPLOYEES table:
+• Grant privileges to update specific columns to users and
+roles:
+GRANT select
+ON employees
+TO sue, rich;
+GRANT succeeded.
+GRANT update (department_name, location_id)
+ON departments
+TO scott, manager;
+
+ 30: Describe revoke privileges with example.
+ • You use the REVOKE statement to revoke privileges
+granted to other users.
+• Privileges granted to others through the WITH GRANT
+OPTION clause are also revoked.
+Example: REVOKE select, insert
+ON departments
+FROM scott;
