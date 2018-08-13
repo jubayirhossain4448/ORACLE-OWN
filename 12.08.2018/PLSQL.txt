@@ -1,0 +1,137 @@
+Page:21
+Declare
+subtype name is char (20);
+subtype message is varchar2 (100);
+salutation name;
+greetings message;
+begin
+salutation := 'Reader';
+greetings := 'Welcome to the World of PL/SQL';
+dbms_output.put_line ('Hello '|| salutation || greetings);
+end;
+============
+Page: 23
+Declare
+a integer :=10;
+b integer := 20;
+c integer;
+f real;
+begin
+c := a+b;
+dbms_output.put_line ('Value of c: ' || c);
+f := 70.0/3.0;
+dbms_output.put_line ('Value of f: ' || f);
+end;
+..............
+Declare
+a integer := 500;
+b integer := 15;
+c integer;
+Begin
+c := a/b;
+dbms_output.put_line ('Value of c : ' || c);
+end;
+====================
+page: 24
+Declare
+-- Global variables
+num1 number := 95;
+num2 number := 85;
+Begin
+dbms_output.put_line ('Outer Variable num1: ' || num1);
+dbms_output.put_line ('Outer Variable num2: ' || num2);
+Declare
+-- Local Variables
+num1 number := 195;
+num2 number := 185;
+begin
+dbms_output.put_line ('Inner Variable num1: ' || num1);
+dbms_output.put_line ('Inner Variable num2: ' || num2);
+end;
+end;
+..................
+Create table Customers (
+id int not null,
+name varchar (20) not null,
+age int not null,
+address char (25),
+salary decimal (18, 2),
+primary key (id)
+);
+................
+page:25
+Insert into customers (id, name, age address, salary)
+values (1, 'Jubayir', 32, 'Dhanmondi', 50000);
+
+Insert into customers (id, name, age, address, salary)
+values (2, 'arefin', 25, 'Mirpur', 5000);
+
+Insert into customers (id, name, age, address, salary)
+values (3, 'Sushmi', 30, 'Mirpur', 600000);
+
+Insert into customers (id, name, age, address, salary)
+values (4, 'Moly', 32, 'Mohammadpur', 900000);
+
+Insert into customers (id, name, age, address, salary)
+values (5, 'Zakir', 32, 'Comilla', 50000);
+
+Insert into customers (id, name, age, address, salary)
+values (6, 'Mehdee', 32, 'Comilla', 50000);
+
+select * from customers;
+.....................
+Declare
+c_id customers.id%type := 1;
+c_name customers.name%type;
+c_addr customers.address%type;
+c_sal customers.salary%type;
+Begin
+select name, address, salary INTO c_name, c_addr, c_sal
+from customers
+where id = c_id;
+dbms_output.put_line
+('Customers ' || c_name || 'from' || c_addr || ' earns ' || c_sal);
+end;
+
+...............................
+Page: 29/30
+Declare
+a number (2) := 21;
+b number (2) := 10;
+Begin
+if (a = b) then
+dbms_output.put_line ('Line 1 - a is equal to b');
+else
+dbms_output.put_line ('Line 1 - a is not equal to b');
+End if;
+if (a < b ) then
+dbms_output.put_line ('Line 2 - a is less than b');
+Else
+dbms_output.put_line ('Line 2 - a is not less than b'); 
+End if;
+if (a>b) then
+dbms_output.put_line ('Line 3 - a is greater than b');
+else
+dbms_output.put_line ('Line 3 - a is not greater than b');
+end if;
+-- Lets change value of a and b
+a := 5;
+b := 20;
+if (a <= b) then
+dbms_output.put_line ('Line 4 - a is either equal or less than b');
+End if;
+if(b>= a) then
+dbms_output.put_line ('Line 5 - b is either equal or greater than a');
+end if;
+if (a<>b) then
+dbms_output.put_line ('Line 6 - a is not equal to b');
+else
+dbms_output.put_line ('Line 6 - a is equal to b');
+
+end if;
+end;
+...................................
+
+
+
+

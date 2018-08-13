@@ -1,0 +1,344 @@
+Chapter-7
+Page: 31
+LIKE OPERATOR:
+Declare
+procedure compare (value varchar2, pattern varchar2) is 
+Begin
+if value like pattern then
+dbms_output.put_line ('True');
+Else
+dbms_output.put_line('False');
+end if;
+end;
+Begin
+compare ('Zara Ali', 'Z%A_i');
+compare ('Nuha Ali', 'Z%_i');
+end;
+...............
+BETWEEN OPERATOR:
+Declare
+x number (2) := 10;
+Begin
+if (x between 5 and 20) Then
+dbms_output.put_line ('True');
+Else
+dbms_output.put_line ('False');
+End if;
+if (x between 5 and 10) Then
+dbms_output.put_line ('True');
+Else
+dbms_output.put_line ('False');
+End if;
+if (x between 11 and 20) Then
+dbms_output.put_line ('True');
+Else
+dbms_output.put_line ('False');
+End if;
+End;
+................
+IN and NULL OPERATOR:
+Declare
+letter varchar2 (1) := 'm';
+Begin
+if (letter in ('a', 'b', 'c')) Then
+dbms_output.put_line ('True');
+Else
+dbms_output.put_line ('False');
+End if;
+if (letter in ('m', 'n', 'o')) Then
+dbms_output.put_line ('True');
+Else
+dbms_output.put_line ('False');
+End if;
+if (letter is null) Then
+dbms_output.put_line ('True');
+Else
+dbms_output.put_line ('False');
+End if;
+End;
+.................
+Declare
+a boolean := true;
+b boolean := false;
+Begin
+if (a AND b) Then
+dbms_output.put_line('Line 1 - Condition is true');
+End if;
+If (a or b) Then
+dbms_output.put_line('Line 2 - Condition is true');
+End if;
+If (NOT a) Then
+dbms_output.put_line('Line 3 - a is not true');
+Else
+dbms_output.put_line('Line 3 - a is true');
+End if;
+If (NOT b) Then
+dbms_output.put_line('Line 4 - b is not true');
+Else
+dbms_output.put_line('Line 4 - b is true');
+End if;
+End;
+....................
+Page 34
+Declare
+a number (2) := 20;
+b number (2) := 10;
+c number (2) := 15;
+d number (2) := 5;
+e number (2) ;
+Begin
+e := (a + b) * c/d;  -- (30*15)/5
+dbms_output.put_line('Value of (a + b) *c/d is:' || e);
+
+e := ((a + b) * c)/d;  -- (30*15)/5
+dbms_output.put_line('Value of (a + b) *c)/d is:' || e);
+
+e := (a + b) * (c/d);  -- (30)*(15)/5
+dbms_output.put_line('Value of (a + b) *(c/d) is:' || e);
+
+e := a + (b * c)/d;  --  20 +(150/5)
+dbms_output.put_line('Value of a + (b *c) /d is:' || e);
+End;
+
+======================
+Chapter-8
+IF-THEN STATEMENT
+Declare
+a number (2) := 10;
+Begin
+a := 10;
+-- check the boolean condition using if statement
+If (a <20)Then
+-- if condition is true then print the following
+dbms_output.put_line ('a is less than 20');
+End if;
+dbms_output.put_line ('value of is : ' || a);
+End;
+.....................
+Declare
+c_id customers.id%type := 1;
+c_sal customers.salary%type;
+Begin
+select salary
+INTO c_sal
+From customers
+Where id = c_id;
+if(c_sal <= 2000)Then
+update customers
+SET salary = salary + 1000
+Where id = c_id;
+dbms_output.put_line ('Salary updated');
+End if;
+End;
+...................
+IF-THEN-ELSE STATEMENT
+
+Declare
+a number (3) := 100;
+ Begin
+-- check the boolean condition using if statement
+if (a <20) Then
+-- if condition is true then print the following
+dbms_output.put_line ('a is less than 20');
+else
+dbms_output.put_line ('a is not less than 20');
+end if;
+dbms_output.put_line ('value of a is: ' || a);
+End;
+....................
+IF-THEN-ELSIF STATEMENT
+Declare
+a number (3) := 100;
+Begin
+if (a = 10) Then
+dbms_output.put_line('Value of a is 10');
+Elsif (a = 20) then
+dbms_output.put_line('Value of a is 20');
+Elsif (a = 30) Then
+dbms_output.put_line('Value of a is 30');
+else
+dbms_output.put_line('None of the value is matching');
+End if;
+dbms_output.put_line('Exact value of a is: ' || a);
+end;
+.................
+CASE STATEMENT
+Declare
+grade char (1) := 'A';
+Begin
+Case grade
+when 'A' then dbms_output.put_line('Excellent');
+when 'B' then dbms_output.put_line('Very Good');
+when 'C' then dbms_output.put_line('Well Done');
+when 'D' then dbms_output.put_line('You Passed');
+when 'F' then dbms_output.put_line('Better try again');
+else dbms_output.put_line('No such grade');
+End case;
+End;
+..................
+SEARCHED CASE STATEMENT
+Declare
+grade char (1) := 'B';
+Begin
+Case 
+when grade = 'A' then dbms_output.put_line('Excellent');
+when grade = 'B' then dbms_output.put_line('Very Good');
+when grade = 'C' then dbms_output.put_line('Well Done');
+when grade = 'D' then dbms_output.put_line('You Passed');
+when grade = 'F' then dbms_output.put_line('Better try again');
+else dbms_output.put_line('No such grade');
+End case;
+End;
+..................
+NESTED IF-THEN-ELSE
+
+Declare
+a number (3) := 100;
+b number (3) := 200;
+Begin 
+-- check the boolean condition
+If (a = 100) Then
+-- if condition is true then print the following
+If(b = 200) Then
+-- if condition is true then print the following
+dbms_output.put_line ('Value of a is 100 and b is 200');
+End if;
+End if;
+dbms_output.put_line('Exact value of a is: ' || a);
+dbms_output.put_line('Exact value of b is: ' || b);
+End;
+...............
+LOOP
+Declare
+x number := 10;
+Begin
+Loop
+dbms_output.put_line (x);
+x := x + 10;
+if x >50 then
+exit;
+End if;
+End loop;
+-- after exit, control resumes here
+dbms_output.put_line('After Exit x is: ' || x);
+End;
+............. 
+Declare
+x number := 10;
+Begin
+Loop
+dbms_output.put_line (x);
+x := x + 10;
+exit when x >50;
+End loop;
+-- after exit, control resumes here
+dbms_output.put_line('After Exit x is: ' || x);
+End;
+................
+WHILE LOOP
+Declare
+a number (2) := 10;
+Begin
+While a <20 loop
+dbms_output.put_line ('value of a: ' || a);
+a := a + 1;
+End Loop;
+End;
+...............
+FOR LOOP
+Declare 
+a number (2);
+Begin
+For a in 10 .. 20 loop
+dbms_output.put_line('value of a: ' || a);
+End loop;
+End;
+................
+Declare 
+a number (2);
+Begin
+For a in reverse 10 .. 20 loop
+dbms_output.put_line('value of a: ' || a);
+End loop;
+End;
+.................
+NESTED LOOPS
+Declare
+i number (3);
+j number (3);
+Begin
+i := 2;
+Loop 
+j := 2;
+Loop
+exit when ((mod (i, j) = 0) or (j = i));
+j := j + 1;
+End loop;
+if (j = i) Then
+dbms_output.put_line(i || ' is prime');
+End if;
+i := i + 1;
+exit when i = 50;
+End loop;
+End;
+....................
+Declare
+i number(1);
+j number(1);
+Begin
+<< outer_loop >>
+For i in 1..3 Loop
+<< inner_loop >>
+For j in 1 ..3 loop
+dbms_output.put_line ('i is: ' || i || ' and j is: ' || j);
+End loop inner_loop;
+End loop outer_loop;
+End;
+..................
+EXIT-WHEN-STATEMENT
+Declare
+a number (2) := 10;
+Begin
+-- while loop execution
+while a <20 loop
+dbms_output.put_line ('value of a: ' || a);
+a := a + 1;
+if a > 15 Then
+-- terminate the loop using the exit statement
+exit;
+End if;
+End loop;
+End;
+............
+Continue
+Declare
+a number (2) := 10;
+Begin
+-- while loop execution
+While a<20 loop
+dbms_output.put_line ('value of a; ' || a);
+a := a + 1;
+IF a = 15 Then
+-- skip the loop using the continue statement
+a := a + 1;
+continue;
+End if;
+End loop;
+End;
+................
+GOTO STATEMENT
+Declare
+a number (2) := 10;
+Begin
+<< loopstart >>
+-- while loop execution
+While a<20 loop
+dbms_output.put_line ('value of a; ' || a);
+a := a + 1;
+IF a = 15 Then
+a := a + 1;
+GOTO loopstart;
+End if;
+End loop;
+End;
+................
