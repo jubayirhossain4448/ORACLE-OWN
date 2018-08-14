@@ -1,0 +1,118 @@
+Declare
+name varchar2 (20);
+company varchar2(30);
+introduction clob;
+choice char (1);
+Begin
+name := 'John Smith';
+company := 'Infotech';
+introduction := 'Hello! I''m John Smith from Infotech.';
+choice := 'y';
+If choice = 'y' then
+dbms_output.put_line(name);
+dbms_output.put_line(company);
+dbms_output.put_line(introduction);
+End if;
+end;
+.....................
+Example-1
+
+Declare
+greetings varchar2 (11) := 'hello world';
+Begin
+dbms_output.put_line (UPPER(greetings));
+
+dbms_output.put_line (lower(greetings));
+
+dbms_output.put_line (INITCAP(greetings));
+
+/*retrieve the first character in the string */
+dbms_output.put_line (substr(greetings, 1, 1));
+
+/*retrieve the lastcharacter in the string */
+dbms_output.put_line (substr(greetings, -1, 1));
+
+/*retrieve five characters,
+starting from the seventh position.*/
+dbms_output.put_line (substr(greetings, 7, 5));
+
+/*retrieve the remainder of the string,
+starting from the second position.*/
+dbms_output.put_line (substr(greetings, 2));
+
+/*find the location of the first "e"*/
+dbms_output.put_line (instr(greetings, 'e'));
+End;
+
+...................
+Example-2
+
+Declare
+greetings varchar2 (30) := '......Hello World.....';
+Begin
+dbms_output.put_line (RTRIM(greetings,'.'));
+
+dbms_output.put_line (LTRIM(greetings,'.'));
+
+dbms_output.put_line (TRIM('.' from greetings));
+End;
+.................
+Arrays
+
+Declare
+type namesarray is varray (5) of varchar2 (10);
+type grades is varray (5) of integer;
+names namesarray;
+marks grades;
+total integer;
+Begin
+names := namesarray ('Kavita', 'Pritam', 'Ayan', 'Rishav', 'Aziz');
+marks := grades (98, 97, 78, 87, 92);
+total := names.count;
+dbms_output.put_line('Total ' || total || 'Students');
+For i in 1 .. total Loop
+dbms_output.put_line('Student:' || total || names (1) || ' Marks: ' || marks (i));
+End loop;
+End;
+...............
+Declare
+type namesarray is varray (5) of varchar2 (10);
+type grades is varray (5) of integer;
+names namesarray;
+marks grades;
+total integer;
+Begin
+names := namesarray ('Kavita', 'Pritam', 'Ayan', 'Rishav', 'Aziz');
+marks := grades (98, 97, 78, 87, 92);
+total := names.count;
+dbms_output.put_line('Total  '|| total || ' Students');
+For i in 1 .. total Loop
+dbms_output.put_line('Student:' || names (i) || ' Marks: ' || marks(i));
+End loop;
+End;
+..................
+Declare
+cursor c_customers is 
+select name from customers;
+type c_list is varray (6) of customers.name%type;
+name_list c_list := c_list ();
+counter integer := 0;
+Begin
+for n in c_customers loop
+counter := counter + 1;
+name_list.extend;
+name_list (counter) := n.name;
+dbms_output.put_line('Customer('||counter ||'): '||name_list (counter));
+End loop;
+End;
+...............
+Chapter-12
+create or replace procedure greetings
+as 
+Begin
+dbms_output.put_line ('Hello World!');
+End;
+..............
+Begin
+greetings;
+End;
