@@ -1,0 +1,133 @@
+chapter-13
+create or replace function totalCustomers
+return number is
+total number (2) := 0;
+Begin
+select count (*) into total
+from customers;
+return total;
+End;
+==========================
+
+Declare
+a number;
+b number;
+c number;
+Function findMax (x in number, y in number)
+Return number
+is
+z number;
+Begin
+if x>y then
+z := x;
+else
+z := y;
+End if;
+return z;
+end;
+Begin
+a := 23;
+b :=45;
+c := findMax (a, b);
+dbms_output.put_line ('Maximum of (23, 45): ' || c);
+End;
+.....................
+Declare
+num number;
+factorial number;
+
+function fact (x number)
+Return number
+is
+f number;
+Begin
+if x=0 then
+f := 1;
+else 
+f := x * fact(x-1);
+End if;
+Return f;
+end;
+Begin num := 6;
+factorial := fact (num);
+dbms_output.put_line ('Factorial ' || num || ' is ' || factorial);
+End;
+============================
+Step:1 Create table
+Create table student(
+user_id number (5) primary key,
+username varchar2 (20) not null
+);
+
+Step-2: Create Procedure
+Create or replace Procedure getStudentByUserId(
+p_userid in student.user_id%type,
+p_username out student.username%type
+)
+is
+Begin
+select username
+into p_username
+from student where user_id = p_userid;
+End;
+
+Step-3:Insert Data
+insert into student values (1, 'admin');
+insert into student values (2, 'abc');
+insert into student values (3, 'test');
+
+Step-4: call procedure and Display data
+Declare
+p_username student.username%type;
+Begin
+getStudentByUserId(1, p_username);
+dbms_output.put_line ('username: ' || p_username);
+End;
+ ...................
+ Chapter-16
+Declare
+c_id employees.employee_id%type := 101;
+c_name employees.last_name%type;
+c_sal employees.salary%type;
+Begin
+select last_name, salary into c_name, c_sal 
+from employees
+where employee_id = c_id;
+
+dbms_output.put_line ('Name: ' || c_name);
+dbms_output.put_line ('Salary: ' || c_sal);
+
+Exception
+when no_data_found then
+dbms_output.put_line ('No such employee!');
+when others then
+dbms_output.put_line ('Error!');
+end;
+................
+Declare
+c_id customers.id%type := &cc_id;
+c_name customers.name%type;
+c_name customers.address%type;
+
+-- user defined exception
+ex_invalid_id exception;
+Begin
+if c_id <= 0 then
+raise ex_invalid_id;
+else
+select name, address into c_name, c_addr
+from customers
+where id = c_id;
+dbms_output.put_line('Name: ' || c-name);
+dbms_output.put_line('Address: ' || c-addr);
+end if;
+exception
+when ex_invalid_id then
+dbms_output.put_line('ID must be greater than zero!');
+when no_data_found then
+dbms_output.put_line('No such customer!');
+when others then
+dbms_output.put_line('Error!');
+End;
+
+

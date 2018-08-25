@@ -1,0 +1,48 @@
+create table country(
+id number (10) primary key not null,
+name varchar2(25) not null
+);
+insert into country(id,name) values (10,'Bangladesh');
+
+==========================================
+create table division (
+id number (10) primary key not null;
+name varchar2 (25) not null,
+constrint country_id number(10), country-division-fk foreign key (country_id) references country (country_id)
+);
+
+insert into division (id,name) values (111,'Dhaka');
+
+
+
+===========================================
+create table district(
+id number (10) primary key not null;
+name varchar2 (25) not null,
+constrint division_id number(10), country-district-fk foreign key (division_id) references division (division_id)
+);
+insert into district (id,name) values (222, 'Magura');
+
+=========================================
+create table thana(
+id number (10) primary key not null;
+name varchar2 (25) not null,
+constrint district_id number(10), thana-district-fk foreign key (district_id) references district (district_id)
+);
+insert into thana (id,name) values (333, 'Mohammadpur');
+
+==================================
+ create table union(
+id number (10) primary key not null;
+name varchar2 (25) not null,
+constrint thana_id number(10), thana-district-fk foreign key (thana_id) references thana (thana_id)
+);
+insert into thana (id,name) values (444, 'Islampur');
+
+======================================
+ create table village(
+id number (10) primary key not null;
+name varchar2 (25) not null,
+constrint union_id number(10), union-district-fk foreign key (union_id) references union (union_id)
+);
+insert into village (id,name) values (555, 'Mohammadpur');

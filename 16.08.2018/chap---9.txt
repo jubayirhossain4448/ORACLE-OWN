@@ -1,0 +1,145 @@
+Basic Loop:
+===========
+declare 
+ x number :=10;
+begin
+     loop
+        dbms_output.put_line (x);
+        x :=x+10;
+        if  x > 50 then
+            exit;
+            end if;
+
+    end loop;
+
+       dbms_output.put_line ('After Exit x is: ' || x);
+end;
+
+
+Exit when:
+===========
+declare 
+ x number :=10;
+begin
+     loop
+        dbms_output.put_line (x);
+        x :=x+10;
+        exit when x > 50 ;
+          
+     end loop;
+
+       dbms_output.put_line ('After Exit x is: ' || x);
+end;
+
+
+
+While Loop:
+=========
+declare 
+ a number(2) :=10;
+begin
+     while a <20 loop
+        dbms_output.put_line('Value of a: ' || a );
+        a :=a+1;
+ 
+    end loop;
+
+end;
+
+
+For loop:
+=========
+declare 
+ a number(2);
+begin
+     for a in 10 .. 20 loop
+        dbms_output.put_line('Value of a: ' || a );
+       
+ 
+    end loop;
+
+end;
+
+For loop Reverse :
+=========
+declare 
+ a number(2);
+begin
+     for a in reverse 10 .. 20 loop
+        dbms_output.put_line('Value of a: ' || a );
+       
+ 
+    end loop;
+
+end;
+
+
+nested loop/ Prime
+=============
+declare 
+       i number(3);
+       j number(3);
+begin
+       i :=2;
+loop
+       j :=2;
+loop
+       exit when ((mod(i,j)=0) or (j=i));
+       j :=j+1;
+end loop;
+       if (j=i) then
+       dbms_output.put_line(i || ' is prime' );
+end if;
+       i :=i+1;
+       exit when i = 50;
+end loop;
+
+end;
+
+
+or
+
+
+declare 
+       i number(3);
+       j number(3);
+begin
+       i :=2;
+loop
+       j :=2;
+loop
+       exit when ((mod(i,j)=0) or (j=i));
+       j :=j+1;
+end loop;
+       if (j=i) then
+       dbms_output.put_line(i || ' is prime' );
+else
+      dbms_output.put_line(i || ' is not prime' );
+end if;
+       i :=i+1;
+       exit when i > 50;
+end loop;
+
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

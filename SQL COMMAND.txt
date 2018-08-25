@@ -1,0 +1,12 @@
+Insert into employees(table_name) (last_name, salary, job_id) 
+values ('Hossain', 50000,200);
+......................
+update employees(table_name) set department_id = 70
+where employee_id = 113;
+To delete specific rows
+Delete from departments 
+where department_name = "Finance";
+To delete all rows
+Delete from employees;
+To truncate Table
+Truncate table departments(table_name);
