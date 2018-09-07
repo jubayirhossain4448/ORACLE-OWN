@@ -1,0 +1,30 @@
+REvidence
+..................
+Question-1
+SELECT last_name, salary from employees where salary between 5000 and 12000
+And department_id IN (20, 50);
+...............................
+Question-2
+SELECT last_name, LPAD(salary, 15, '$') SALARY from employees; 
+............................................
+Question-3
+SELECT ROUND(MAX(salary),0) "Maximum",
+ROUND(MIN(salary),0) "Minimum",
+ROUND(SUM(salary), 0) "Sum",
+ROUND(AVG(salary), 0) "Average"
+from employees
+Group by job_id
+Having avg(salary)>10000;
+..........................
+Question-4
+SELECT last_name, job_id, department_id, department_name 
+from employees
+JOIN departments
+USING (department_id)
+JOIN
+locations
+USING (location_id)
+WHERE city = 'Toronto'; 
+......................
+Question-5
+select last_name, salary from employees where last_name = 'King';
