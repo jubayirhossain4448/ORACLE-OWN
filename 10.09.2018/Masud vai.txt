@@ -1,0 +1,201 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Tue Sep 11 06:49:46 2018
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect
+Enter user-name: system
+Enter password:
+Connected.
+SQL> create user info identified by info
+  2  ;
+
+User created.
+
+SQL> grant dba to info;
+
+Grant succeeded.
+
+SQL> conn
+Enter user-name: info
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connn
+SP2-0042: unknown command "connn" - rest of line ignored.
+SQL> conn
+Enter user-name: info
+Enter password:
+Connected.
+SQL> show user
+USER is "INFO"
+SQL> create table infoo (emp_id number (5) primary key, emp_name varchar2 (25) not null, manager_id number (10) not null, phone number (11), sex char (10) check (sex='Male' or sex= 'Female'), salary number (10) default 15000);
+
+Table created.
+
+SQL> insert into infoo (emp_id,emp_name,manager_id,phone,sex)values (101,'Jubayir',201,01918718282,'Male');
+
+1 row created.
+
+SQL> insert into infoo (emp_id,emp_name,manager_id,phone,sex)values (102,'Moly',202,01918718282,'Female');
+
+1 row created.
+
+SQL> insert into infoo (emp_id,emp_name,manager_id,phone,sex)values (103,'Israt',203,01918718282,'Female');
+
+1 row created.
+
+SQL> insert into infoo (emp_id,emp_name,manager_id,phone,sex)values (104,'Ruma',203,01918718282,'Female');
+
+1 row created.
+
+SQL> insert into infoo (emp_id,emp_name,manager_id,phone,sex)values (105,'Sharmin',203,01918718282,'Female');
+
+1 row created.
+
+SQL> alter table infoo add dep_id varchar2(5);
+
+Table altered.
+
+SQL> describe infoo;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_ID                                    NOT NULL NUMBER(5)
+ EMP_NAME                                  NOT NULL VARCHAR2(25)
+ MANAGER_ID                                NOT NULL NUMBER(10)
+ PHONE                                              NUMBER(11)
+ SEX                                                CHAR(10)
+ SALARY                                             NUMBER(10)
+ DEP_ID                                             VARCHAR2(5)
+
+SQL> select * from infoo;
+
+    EMP_ID EMP_NAME                  MANAGER_ID      PHONE SEX            SALARY
+---------- ------------------------- ---------- ---------- ---------- ----------
+DEP_I
+-----
+       101 Jubayir                          201 1918718282 Male            15000
+
+
+       102 Moly                             202 1918718282 Female          15000
+
+
+       103 Israt                            203 1918718282 Female          15000
+
+
+
+    EMP_ID EMP_NAME                  MANAGER_ID      PHONE SEX            SALARY
+---------- ------------------------- ---------- ---------- ---------- ----------
+DEP_I
+-----
+       104 Ruma                             203 1918718282 Female          15000
+
+
+       105 Sharmin                          203 1918718282 Female          15000
+
+
+
+SQL> create table dep_info (dep_id number (5) primary key, dep_name varchar2(20), manager_id number(10),dep_location varchar2(25));
+
+Table created.
+
+SQL> create sequence dep_seq increment by 1 start with 301 nocache nocycle;
+
+Sequence created.
+
+SQL> insert into dep_info(dep_id,dep_name,manager_id,dep_location)values(dep_seq.nextval,'Account',201,'Dhaka');
+
+1 row created.
+
+SQL> insert into dep_info(dep_id,dep_name,manager_id,dep_location)values(dep_seq.nextval,'Account',201,'Dhaka');
+
+1 row created.
+
+SQL> insert into dep_info(dep_id,dep_name,manager_id,dep_location)values(dep_seq.nextval,'Finance',203,'Magura');
+
+1 row created.
+
+SQL> insert into dep_info(dep_id,dep_name,manager_id,dep_location)values(dep_seq.nextval,'Marketing',202,'Dhaka');
+
+1 row created.
+
+SQL> insert into dep_info(dep_id,dep_name,manager_id,dep_location)values(dep_seq.nextval,'Account',203,'Khulna');
+
+1 row created.
+
+SQL> update infoo set dep_id = 301 where emp_id = 101;
+
+1 row updated.
+
+SQL> update infoo set dep_id = 302 where emp_id = 102;
+
+1 row updated.
+
+SQL> create view view_emp_dep_info(emp_id,name,phone,dep_name,sex)as select e.emp_id,e.emp_name,e.phone,d.dep_name,e.sex from infoo e join dep_info d using (manager_id);
+
+View created.
+
+SQL> select name,phone,dep_name from view_emp_dep_info where sex = 'Female';
+
+NAME                           PHONE DEP_NAME
+------------------------- ---------- --------------------
+Sharmin                   1918718282 Finance
+Ruma                      1918718282 Finance
+Israt                     1918718282 Finance
+Moly                      1918718282 Marketing
+Sharmin                   1918718282 Account
+Ruma                      1918718282 Account
+Israt                     1918718282 Account
+
+7 rows selected.
+
+SQL> set serveroutput on size 3000;
+SQL> declare
+  2  a number
+  3  b number
+  4  c number
+  5  function min_num(x in number, y in number)
+  6  return number
+  7  is
+  8  z number;
+  9  begin
+ 10  if x<y then
+ 11  z:=x;
+ 12  else
+ 13  z:=x;
+ 14  end if;
+ 15  return z;
+ 16  end;
+ 17  /
+b number
+*
+ERROR at line 3:
+ORA-06550: line 3, column 1:
+PLS-00103: Encountered the symbol "B" when expecting one of the following:
+:= . ( @ % ; not null range default character
+
+
+SQL> SET serveroutput On SIZE 3000;
+SQL> CREATE OR REPLACE TRIGGER salary_changes
+  2  BEFORE DELETE OR INSERT OR UPDATE ON emp_info
+  3  FOR EACH ROW
+  4  DECLARE
+  5      sal_diff number;
+  6  BEGIN
+  7     sal_diff := :NEW.salary  -  :OLD.Salary;
+  8     dbms_output.put_line('Old salary :' || :OLD.salary);
+  9     dbms_output.put_line('New salary :' || :NEW.salary);
+ 10     dbms_output.put_line('Salary difference :' || sal_diff);
+ 11  END;
+ 12
+ 13  /
+BEFORE DELETE OR INSERT OR UPDATE ON emp_info
+                                     *
+ERROR at line 2:
+ORA-00942: table or view does not exist
+
+
+SQL>

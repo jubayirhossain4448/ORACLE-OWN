@@ -1,0 +1,207 @@
+SQL> set autocommit on
+SQL> conn
+Enter user-name: system
+Connected.
+SQL> conn
+Enter user-name: Eid1
+ERROR:
+ORA-01045: user EID1 lacks CREATE SESSION privilege; logon denied 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> conn
+Enter user-name: Eid1
+ERROR:
+ORA-01045: user EID1 lacks CREATE SESSION privilege; logon denied 
+
+
+SQL> Create user Eid1 identified by eid;
+SP2-0640: Not connected
+SQL> grant dba to eid1;
+SP2-0640: Not connected
+SQL> conn
+Enter user-name: system
+Connected.
+SQL> grant dba to Eid1;
+
+Grant succeeded.
+
+SQL> Create Table emp1(
+  2  eid_id number (5) primary key,
+  3  ename varchar2 (25) not null,
+  4  salary number (7,2) check (salary)>1000,
+  5  hire_date Date default sydate,
+  6  address varchar2(30),
+  7  );
+salary number (7,2) check (salary)>1000,
+                                 *
+ERROR at line 4:
+ORA-00920: invalid relational operator 
+
+
+SQL> Create Table emp1(
+  2  eid_id number (5) primary key,
+  3  ename varchar2 (25) not null,
+  4  salary number (7,2) check salary>1000,
+  5  hire_date Date default sydate,
+  6  address varchar2(30),
+  7  );
+salary number (7,2) check salary>1000,
+                          *
+ERROR at line 4:
+ORA-00906: missing left parenthesis 
+
+
+SQL> Create Table emp1(
+  2  eid_id number (5) primary key,
+  3  ename varchar2 (25) not null,
+  4  salary number (7,2),
+  5  hire_date Date default sydate,
+  6  address varchar2(30),
+  7  );
+hire_date Date default sydate,
+                       *
+ERROR at line 5:
+ORA-00984: column not allowed here 
+
+
+SQL> Create Table emp1(
+  2  eid_id number (5) primary key,
+  3  ename varchar2 (25) not null,
+  4  salary number (7,2),
+  5  hire_date Date default sysdate,
+  6  address varchar2(30),
+  7  );
+)
+*
+ERROR at line 7:
+ORA-00904: : invalid identifier 
+
+
+SQL> Create Table emp1(
+  2  eid_id number (5) primary key,
+  3  ename varchar2 (25) not null,
+  4  salary number (7,2),
+  5  hire_date Date default sysdate,
+  6  address varchar2(30)
+  7  );
+
+Table created.
+
+SQL> INSERT int emp1 (eid_id, ename, salary, address) values (100,'Jubayir',50000,'Dhanmondi,Dhaka');
+INSERT int emp1 (eid_id, ename, salary, address) values (100,'Jubayir',50000,'Dhanmondi,Dhaka')
+       *
+ERROR at line 1:
+ORA-00925: missing INTO keyword 
+
+
+SQL> INSERT into emp1 (eid_id, ename, salary, address) values (100,'Jubayir',50000,'Dhanmondi,Dhaka');
+
+1 row created.
+
+Commit complete.
+SQL> select * from emp1;
+
+    EID_ID ENAME                         SALARY HIRE_DATE                       
+---------- ------------------------- ---------- ---------                       
+ADDRESS                                                                         
+------------------------------                                                  
+       100 Jubayir                        50000 07-SEP-18                       
+Dhanmondi,Dhaka                                                                 
+                                                                                
+
+SQL> alter table emp add(phone varchar2 (11),
+  2  job_title varchar2(30));
+alter table emp add(phone varchar2 (11),
+*
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> alter table emp1 add(phone varchar2 (11),
+  2  job_title varchar2(30));
+
+Table altered.
+
+SQL> select * from emp1;
+
+    EID_ID ENAME                         SALARY HIRE_DATE                       
+---------- ------------------------- ---------- ---------                       
+ADDRESS                        PHONE       JOB_TITLE                            
+------------------------------ ----------- ------------------------------       
+       100 Jubayir                        50000 07-SEP-18                       
+Dhanmondi,Dhaka                                                                 
+                                                                                
+
+SQL> select ename, job_title, salary + (salary * 30) as review_salary from emp1;
+
+ENAME                     JOB_TITLE                      REVIEW_SALARY          
+------------------------- ------------------------------ -------------          
+Jubayir                                                        1550000          
+
+SQL> select ename, salary from emp1 where salary = (select min(salary) from emp1);
+
+ENAME                         SALARY                                            
+------------------------- ----------                                            
+Jubayir                        50000                                            
+
+SQL> update emp1 set job_title = 'Manager';
+
+1 row updated.
+
+Commit complete.
+SQL> select * from emp1;
+
+    EID_ID ENAME                         SALARY HIRE_DATE                       
+---------- ------------------------- ---------- ---------                       
+ADDRESS                        PHONE       JOB_TITLE                            
+------------------------------ ----------- ------------------------------       
+       100 Jubayir                        50000 07-SEP-18                       
+Dhanmondi,Dhaka                            Manager                              
+                                                                                
+
+SQL> create VIEW v_emp;
+create VIEW v_emp
+                *
+ERROR at line 1:
+ORA-00905: missing keyword 
+
+
+SQL> create VIEW v_emp as select
+  2  ename,job_title,salary
+  3  salary + (salary * 30)
+  4  as review_salary
+  5  from emp1;
+salary + (salary * 30)
+       *
+ERROR at line 3:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> create VIEW v_emp as select
+  2  ename,job_title,salary
+  3  salary +(salary * 30)
+  4  as review_salary
+  5  from emp1;
+salary +(salary * 30)
+       *
+ERROR at line 3:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> create VIEW v_emp as select
+  2  ename,job_title,salary
+  3  as review_salary
+  4  from emp1;
+
+View created.
+
+SQL> describe view e_emp;
+Usage: DESCRIBE [schema.]object[@db_link]
+SQL> select * from v_emp;
+
+ENAME                     JOB_TITLE                      REVIEW_SALARY          
+------------------------- ------------------------------ -------------          
+Jubayir                   Manager                                50000          
+
+SQL> spool off

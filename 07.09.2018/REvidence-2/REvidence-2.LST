@@ -1,0 +1,110 @@
+SQL> set autocommit on
+SQL> select count(Distinct manager_id) "Number of Managers" from employees;
+SP2-0640: Not connected
+SQL> conn
+Enter user-name: hr
+Connected.
+SQL> select count(Distinct manager_id) "Number of Managers" from employees;
+
+Number of Managers                                                              
+------------------                                                              
+                18                                                              
+
+SQL> Select count(*) from employees;
+
+  COUNT(*)                                                                      
+----------                                                                      
+       107                                                                      
+
+SQL> select max(salary), Min(salary) difference from employees;
+
+MAX(SALARY) DIFFERENCE                                                          
+----------- ----------                                                          
+      24000       2100                                                          
+
+SQL> select max(salary)-min(salary) difference from employees;
+
+DIFFERENCE                                                                      
+----------                                                                      
+     21900                                                                      
+
+SQL> select manager_id, min(salary) from employees where manager_id is not null group by manager_id having min (salary)>6000 order by min(salary) Desc;
+
+MANAGER_ID MIN(SALARY)                                                          
+---------- -----------                                                          
+       102        9000                                                          
+       205        8300                                                          
+       145        7000                                                          
+       146        7000                                                          
+       108        6900                                                          
+       147        6200                                                          
+       149        6200                                                          
+       148        6100                                                          
+
+8 rows selected.
+
+SQL> SELECT COUNT(*) total,
+  2  SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1995,1,0)) "1995",
+  3  SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1996,1,0)) "1996",
+  4  SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1997,1,0)) "1997",
+  5  SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1998,1,0)) "1998"
+  6  FROM employees;
+
+     TOTAL       1995       1996       1997       1998                          
+---------- ---------- ---------- ---------- ----------                          
+       107          0          0          0          0                          
+
+SQL> SELECT job_id "JOB",
+  2  SUM(DECODE(department_id, 20, salary)) "Dept 20",
+  3  SUM(DECODE(department_id, 50, salary)) "Dept 50",
+  4  SUM(DECODE(department_id, 80, salary)) "Dept 80",
+  5  SUM(DECODE(department_id, 90, salary)) "Dept 90"
+  6  FROM employees
+  7  GROUP BY job_id;
+
+JOB           Dept 20    Dept 50    Dept 80    Dept 90                          
+---------- ---------- ---------- ---------- ----------                          
+IT_PROG                                                                         
+AC_MGR                                                                          
+AC_ACCOUNT                                                                      
+ST_MAN                     36400                                                
+PU_MAN                                                                          
+AD_ASST                                                                         
+AD_VP                                            34000                          
+SH_CLERK                   64300                                                
+FI_ACCOUNT                                                                      
+FI_MGR                                                                          
+PU_CLERK                                                                        
+
+JOB           Dept 20    Dept 50    Dept 80    Dept 90                          
+---------- ---------- ---------- ---------- ----------                          
+SA_MAN                                61000                                     
+MK_MAN          13000                                                           
+PR_REP                                                                          
+AD_PRES                                          24000                          
+SA_REP                               243500                                     
+MK_REP           6000                                                           
+ST_CLERK                   55700                                                
+HR_REP                                                                          
+
+19 rows selected.
+
+SQL> SELECT e.last_name, e.job_id, e.department_id, d.department_name
+  2  FROM employees e JOIN departments d
+  3  ON (e.department_id = d.department_id)
+  4  JOIN locations l
+  5  ON (d.location_id = l.location_id)
+  6  WHERE LOWER(l.city) = 'toronto';
+
+LAST_NAME                 JOB_ID     DEPARTMENT_ID                              
+------------------------- ---------- -------------                              
+DEPARTMENT_NAME                                                                 
+------------------------------                                                  
+Hartstein                 MK_MAN                20                              
+Marketing                                                                       
+                                                                                
+Fay                       MK_REP                20                              
+Marketing                                                                       
+                                                                                
+
+SQL> spool off

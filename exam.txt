@@ -1,0 +1,105 @@
+create user Ju identified by ju;
+........................
+grant dba to ju;
+.....................
+connect
+ju
+ju
+...................
+create table department (
+dep_id number (3) primary key,
+dep_name varchar2 (25)
+);
+..............................
+create table employee (
+emp_id number (3) primary key,
+emp_name varchar2 (25) not null,
+mobile number (11) unique,
+salary number (7,2) check (salary>10000),
+joining_date Date default sysdate,
+country varchar2 (10) default 'BD',
+dep_id number(3),
+constraint emp_dep_fk foreign key (dep_id) references department (dep_id)
+);
+...........................
+create table employee_backup as select * from employee;
+............................................
+create or replace TRIGGER emp_after_insert after insert on
+employee 
+for each row
+declare
+begin
+insert into employee_backup values (:new.emp_id,:new.emp_name,
+:new.mobile,:new.salary,:new.joining_date,:new.country,:new.dep_id);
+dbms_output.put_line ('Successfully inserted');
+End;
+..................................
+create or replace TRIGGER emp_after_update after update on employee
+for each row
+declare
+Begin
+update employee_backup set emp_name = :new.emp_name where emp_id = :old.emp_id;
+dbms_output.put_line('Successfully updated');
+End;
+...................................
+create or replace TRIGGER emp_after_delete after delete on employee
+for each row
+declare
+begin
+delete from employee_backup where emp_id = :old.emp_id;
+dbms_output.put_line('Successfully updated');
+End;
+................................
+create sequence emp_seq 
+increment by 5
+start with 1
+nocache
+nocycle;
+........................
+create sequence dep_seq 
+increment by 10
+start with 1
+nocache
+nocycle;
+.........................
+create or replace procedure insertdepartment(
+p_id in department.dep_id%type,
+p_name in department.dep_name%Type)
+is
+Begin
+insert into department(dep_id,dep_name) values (p_id,p_name);
+end;
+................................
+Begin
+insertdepartment(dep_seq.nextval, 'ADMIN');
+end;
+.........................................
+Begin
+insertdepartment(dep_seq.nextval, 'SOFTWARE');
+end;
+................................
+Begin
+insertdepartment(dep_seq.nextval, 'ICT');
+end;
+.......................................
+create VIEW dep_view as select dep_name from department;
+.......................................
+create synonym dep_syn for department;
+.......................................
+create or replace procedure insertemployee(
+p_id in employee.emp_id%Type,
+p_name in employee.emp_name%Type,
+p_mobile in employee.mobile%Type,
+p_salary in employee.salary%type,
+p_dep_id in employee.p_dep_id%Type)
+is
+begin
+insert into employee(emp_id,emp_name,mobile,salary,dep_id) 
+values (p_id,p_name,p_mobile,p_salary,dep_id);
+end;
+.......................
+begin
+insertemployee(emp_seq.nextval,'A',01918718282,500000);
+end;
+
+

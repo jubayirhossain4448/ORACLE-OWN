@@ -1,0 +1,26 @@
+Create user Eid1 identified by eid;
+...........Table creating............
+Create Table emp1(
+eid_id number (5) primary key,
+ename varchar2 (25) not null,
+salary number (7,2),
+hire_date Date default sysdate,
+address varchar2(30)
+);
+................Data INSERTING................
+INSERT into emp1 (eid_id, ename, salary, address) values (100,'Jubayir',50000,'Dhanmondi,Dhaka');
+...........................................
+alter table emp1 add(phone varchar2 (11),
+job_title varchar2(30));
+.................Show Table......................
+select ename, job_title, salary + (salary * 30) as review_salary from emp1;
+................................................
+select ename, salary from emp1 where salary = (select min(salary) from emp1);
+.................Updating Table.......................
+update emp1 set job_title = 'Manager';
+................Creating VIEW.......................
+create VIEW v_emp as select 
+ename,job_title,salary  
+as review_salary 
+from emp1;
+................Sequence................

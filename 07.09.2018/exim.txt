@@ -1,0 +1,52 @@
+1. savepoint dep;
+2. rollback to dep;
+3. create sequence dep_id_seq
+start with 10
+increment by 10
+maxvalue 9999;
+4. select sequence_name from user_sequences;
+5. select index_name from user_indexes;
+6. create index dep_name on department(department_name);
+7. create or replace procedure insertDepartment(
+   p_id in department.dep_id%type,
+   p_name in department.department_name%type)
+   is
+   begin
+   insert into department(dep_id, department_name) values(p_id, p_name);
+   end;
+8. begin
+   insertDepartment(dep_id_seq.NEXTVAL, 'Admin');
+   end;
+9. begin
+   insertDepartment(dep_id_seq.NEXTVAL, 'Software');
+   end;
+10. begin
+    insertDepartment(dep_id_seq.NEXTVAL, 'Marketing');
+    end;
+11. create view dep_view as select * from department;
+12. create synonym dep for department;
+13. create synonym dep_vu for dep_view;
+14. select * from dep_view;
+15. select * from department;
+16. select * from dep_vu;
+17. create index emp_name on employee(emp_name);
+18. create or replace procedure insertEmployee(
+   p_id in employee.emp_id%type,
+   p_name in employee.emp_name%type,
+   p_mobile in employee.mobile%type,
+   p_salary in employee.salary%type,
+   p_dep_id in employee.dep_id%type)
+   is
+   begin
+   insert into employee(emp_id, emp_name,mobile,salary,dep_id) values(p_id,p_name,p_mobile,p_salary,p_dep_id);
+   end;
+19.begin
+   insertEmployee(emp_id_seq.NEXTVAL, 'A', 01234, 20000, 10);
+   end;
+20.create view emp_view as select * from employee;
+21.create synonym emp_vu for emp_view;
+22.select * from emp_view;
+23.update department set department_name = 'Sales' where dep_id = 30;
+24.alter table employee add email varchar2(30) unique;
+25.update employee set dep_id = 30 where emp_id = 101;
+     
